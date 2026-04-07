@@ -121,6 +121,242 @@ function getSectionTitleSplitter(target) {
 function initHeroAnimation() {
   document.querySelector(".hero-copy")?.classList.add("is-visible");
   document.querySelector(".hero-visual")?.classList.add("is-visible");
+  initHeroFlowAnimation();
+}
+
+function initHeroFlowAnimation() {
+  const chrome = document.querySelector(".js-hero-chrome");
+  const blockOverlay = document.querySelector(".js-hero-block-overlay");
+  const authGate = document.querySelector(".js-hero-auth-gate");
+  const incognito = document.querySelector(".js-hero-incognito");
+  const transferBeam = document.querySelector(".js-hero-transfer-beam");
+  const authDots = Array.from(document.querySelectorAll(".hero-auth-dot"));
+  const authStatus = document.querySelector(".js-hero-auth-status");
+  const chromeContent = document.querySelector(".js-hero-content");
+  const glow = document.querySelector(".hero-glow");
+
+  if (!chrome || !blockOverlay || !authGate || !incognito) return;
+
+  const isMobile = window.innerWidth < 780;
+
+  // Entry animation: Chrome window fades in
+  animate(chrome, {
+    opacity: { from: 0, to: 1 },
+    translateY: { from: 28, to: 0 },
+    scale: { from: 0.97, to: 1 },
+    delay: 200,
+    duration: 700,
+    ease: "outExpo",
+  });
+
+  // Ambient glow pulse
+  if (glow && !prefersReducedMotion) {
+    animate(glow, {
+      opacity: [0.5, 0.9, 0.5],
+      scale: [1, 1.03, 1],
+      duration: 6000,
+      ease: "inOutSine",
+      loop: true,
+    });
+  }
+
+  if (prefersReducedMotion) return;
+
+  let loopTimer = 0;
+
+  const resetAll = () => {
+    chrome.classList.remove("is-blocked", "is-shake", "is-authing", "is-success");
+    blockOverlay.style.opacity = "0";
+    blockOverlay.style.transform = "scale(0.96)";
+    authGate.style.opacity = "0";
+    authGate.style.transform = "scale(0.94) translateY(8px)";
+    incognito.style.opacity = "0";
+    incognito.style.transform = "translate(30px, 16px) scale(0.9)";
+    if (transferBeam) {
+      transferBeam.style.opacity = "0";
+      transferBeam.style.transform = "scaleX(0)";
+    }
+    authDots.forEach((d) => {
+      d.style.opacity = "0";
+      d.style.transform = "scale(0.5)";
+    });
+    if (authStatus) authStatus.style.opacity = "0";
+    if (chromeContent) chromeContent.style.opacity = "1";
+  };
+
+  const stopLoop = () => {
+    if (loopTimer) { clearTimeout(loopTimer); loopTimer = 0; }
+  };
+
+  const runCycle = () => {
+    stopLoop();
+    resetAll();
+
+    const tl = createTimeline({ defaults: { ease: "outExpo" } });
+
+    // ── Phase 1: Browser loads, user navigates to protected URL ──
+    // Chrome window already visible from entry animation.
+    // After a beat, the URL bar highlights and page content starts fading.
+
+    tl.add(chrome, {
+      duration: 200,
+      onBegin: () => {
+        chrome.classList.add("is-blocked");
+      },
+    }, 800);
+
+    // Content fades as block approaches
+    if (chromeContent) {
+      tl.add(chromeContent, {
+        opacity: { from: 1, to: 0.2 },
+        duration: 400,
+        ease: "inOutSine",
+      }, 1000);
+    }
+
+    // ── Phase 2: Block overlay appears ──
+    tl.add(blockOverlay, {
+      opacity: { from: 0, to: 1 },
+      scale: { from: 0.96, to: 1 },
+      duration: 480,
+      ease: "outCubic",
+      onBegin: () => {
+        chrome.classList.add("is-shake");
+        setTimeout(() => chrome.classList.remove("is-shake"), 420);
+      },
+    }, 1200);
+
+    // Hold blocked state for readability
+    tl.add(blockOverlay, {
+      duration: 600,
+    }, 1680);
+
+    // ── Phase 3: Block overlay morphs into auth gate ──
+    // Block overlay fades out, auth gate fades in from same position
+    tl.add(blockOverlay, {
+      opacity: { from: 1, to: 0 },
+      scale: { from: 1, to: 0.98 },
+      duration: 320,
+      ease: "inOutSine",
+    }, 2280);
+
+    tl.add(chrome, {
+      duration: 100,
+      onBegin: () => {
+        chrome.classList.remove("is-blocked");
+        chrome.classList.add("is-authing");
+      },
+    }, 2280);
+
+    tl.add(authGate, {
+      opacity: { from: 0, to: 1 },
+      scale: { from: 0.94, to: 1 },
+      translateY: { from: 8, to: 0 },
+      duration: 480,
+      ease: "outCubic",
+    }, 2400);
+
+    // ── Phase 4: Password typing animation ──
+    authDots.forEach((dot, i) => {
+      tl.add(dot, {
+        opacity: { from: 0, to: 1 },
+        scale: { from: 0.5, to: 1 },
+        duration: 180,
+        ease: "outCubic",
+      }, 2900 + i * 100);
+    });
+
+    // Auth verified status
+    if (authStatus) {
+      tl.add(authStatus, {
+        opacity: { from: 0, to: 1 },
+        duration: 300,
+      }, 3800);
+    }
+
+    // ── Phase 5: Transfer beam + Incognito window spawns ──
+    if (transferBeam) {
+      tl.add(transferBeam, {
+        opacity: { from: 0, to: 0.8 },
+        scaleX: { from: 0, to: 1 },
+        duration: 500,
+        ease: "outCubic",
+      }, 4100);
+    }
+
+    // Auth gate fades out
+    tl.add(authGate, {
+      opacity: { from: 1, to: 0 },
+      scale: { from: 1, to: 0.96 },
+      duration: 360,
+      ease: "inOutSine",
+      onBegin: () => {
+        chrome.classList.remove("is-authing");
+        chrome.classList.add("is-success");
+      },
+    }, 4300);
+
+    // Incognito window spawns
+    const incognitoTx = isMobile ? "translate(0px, 12px)" : "translate(30px, 16px)";
+    tl.add(incognito, {
+      opacity: { from: 0, to: 1 },
+      translateX: { from: isMobile ? 0 : 30, to: 0 },
+      translateY: { from: isMobile ? 12 : 16, to: 0 },
+      scale: { from: 0.9, to: 1 },
+      duration: 560,
+      ease: "outCubic",
+    }, 4500);
+
+    // Transfer beam fades
+    if (transferBeam) {
+      tl.add(transferBeam, {
+        opacity: { from: 0.8, to: 0 },
+        duration: 400,
+      }, 4900);
+    }
+
+    // Hold success state for readability
+    tl.add(incognito, {
+      duration: 800,
+    }, 5060);
+
+    // ── Phase 6: Settle and reset ──
+    tl.add(incognito, {
+      opacity: { from: 1, to: 0 },
+      translateX: { from: 0, to: isMobile ? 0 : -15 },
+      translateY: { from: 0, to: 8 },
+      scale: { from: 1, to: 0.92 },
+      duration: 400,
+      ease: "inOutSine",
+    }, 5860);
+
+    tl.add(chrome, {
+      duration: 200,
+      onBegin: () => {
+        chrome.classList.remove("is-success");
+      },
+    }, 6000);
+
+    tl.init();
+
+    // Rest period then loop
+    loopTimer = window.setTimeout(runCycle, 7200);
+  };
+
+  // Start after entry animation
+  window.setTimeout(runCycle, 1400);
+
+  // Pause on tab hidden
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { stopLoop(); return; }
+    loopTimer = window.setTimeout(runCycle, 1000);
+  });
+
+  window.addEventListener("resize", () => {
+    stopLoop();
+    resetAll();
+    loopTimer = window.setTimeout(runCycle, 800);
+  });
 }
 
 function initHeroFlowLoop() {

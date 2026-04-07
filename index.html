@@ -69,61 +69,169 @@
         <div class="hero-visual" data-reveal aria-hidden="true">
           <div class="hero-glow"></div>
 
-          <div class="visual-column visual-column-left">
-            <div class="mini-browser mini-browser-danger">
-              <div class="mini-browser-bar">
-                <span></span><span></span><span></span>
+          <div class="hero-browser-stage">
+            <!-- Main Chrome window showing a webpage -->
+            <div class="hero-chrome-window js-hero-chrome">
+              <div class="hero-chrome-titlebar">
+                <div class="hero-chrome-dots">
+                  <span class="dot-red"></span>
+                  <span class="dot-yellow"></span>
+                  <span class="dot-green"></span>
+                </div>
+                <div class="hero-chrome-tabs">
+                  <div class="hero-chrome-tab is-active">
+                    <span class="hero-chrome-tab-label">Protected Site</span>
+                  </div>
+                  <div class="hero-chrome-tab">
+                    <span class="hero-chrome-tab-label">Dashboard</span>
+                  </div>
+                </div>
               </div>
-              <div class="mini-browser-url">
-                <span class="url-dot"></span>
-                protected.example/private
+              <div class="hero-chrome-urlbar">
+                <div class="hero-chrome-nav-btns">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+                <div class="hero-chrome-url-input">
+                  <span class="hero-chrome-lock-icon js-hero-lock-icon">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </span>
+                  <span class="hero-chrome-url-text js-hero-url-text">https://protected.example/private</span>
+                </div>
               </div>
-              <div class="mini-browser-body">
-                <div class="mini-browser-alert">
-                  <p class="alert-kicker">Regular tab</p>
-                  <p class="alert-title">Blocked before browsing continues</p>
-                  <p class="alert-copy">GhostMark detects the protected URL and removes the tab from the normal browsing flow.</p>
+              <!-- Webpage area -->
+              <div class="hero-chrome-body">
+                <div class="hero-chrome-page js-hero-content">
+                  <div class="hero-page-top">
+                    <div class="hero-page-logo-box"></div>
+                    <div class="hero-page-links">
+                      <span></span><span></span><span></span>
+                    </div>
+                  </div>
+                  <div class="hero-page-hero-area">
+                    <div class="hero-page-h1"></div>
+                    <div class="hero-page-h2"></div>
+                    <div class="hero-page-cta-pill"></div>
+                  </div>
+                  <div class="hero-page-cols">
+                    <div class="hero-page-col">
+                      <div class="hero-page-box"></div>
+                      <span class="hero-page-col-h"></span>
+                      <span class="hero-page-col-p"></span>
+                    </div>
+                    <div class="hero-page-col">
+                      <div class="hero-page-box"></div>
+                      <span class="hero-page-col-h"></span>
+                      <span class="hero-page-col-p"></span>
+                    </div>
+                    <div class="hero-page-col">
+                      <div class="hero-page-box"></div>
+                      <span class="hero-page-col-h"></span>
+                      <span class="hero-page-col-p"></span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="visual-column visual-column-center">
-            <div class="lock-panel">
-              <div class="lock-panel-top">
-                <img src="assets/logo-mark.svg" alt="" class="lock-panel-mark">
-                <div>
-                  <p class="lock-panel-title">認証ゲート</p>
-                  <p class="lock-panel-copy">Master password or folder password</p>
+            <!-- Block overlay -->
+            <div class="hero-block-overlay js-hero-block-overlay">
+              <div class="hero-block-inner">
+                <div class="hero-block-icon-wrap">
+                  <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" y1="9" x2="12" y2="13"/>
+                    <line x1="12" y1="17" x2="12.01" y2="17"/>
+                  </svg>
                 </div>
-              </div>
-              <div class="lock-panel-form">
-                <label>
-                  Password
-                  <span class="input-shell">••••••••••••</span>
-                </label>
-                <button class="button button-primary lock-panel-button" type="button">シークレットで開く</button>
+                <p class="hero-block-kicker">GhostMark Protection</p>
+                <p class="hero-block-title">This page has been blocked</p>
+                <p class="hero-block-copy">The URL <code class="hero-block-url">protected.example/private</code> is in your protected list.<br>Browsing in a normal tab is not allowed.</p>
               </div>
             </div>
-          </div>
 
-          <div class="visual-column visual-column-right">
-            <div class="mini-browser mini-browser-safe">
-              <div class="mini-browser-bar">
-                <span></span><span></span><span></span>
-              </div>
-              <div class="mini-browser-url">
-                <span class="url-dot url-dot-safe"></span>
-                Incognito window
-              </div>
-              <div class="mini-browser-body">
-                <div class="mini-browser-note">
-                  <p class="alert-kicker">After unlock</p>
-                  <p class="alert-title">Private page opens in a separate context</p>
-                  <p class="alert-copy">Session timeout, manual lock, and premium panic close keep the escape route short.</p>
+            <!-- Auth gate -->
+            <div class="hero-auth-gate js-hero-auth-gate">
+              <div class="hero-auth-inner">
+                <div class="hero-auth-brand">
+                  <img src="assets/logo-mark.svg" alt="" class="hero-auth-logo">
+                  <div>
+                    <p class="hero-auth-title">GhostMark</p>
+                    <p class="hero-auth-copy">Enter password to open in Incognito</p>
+                  </div>
+                </div>
+                <div class="hero-auth-form">
+                  <div class="hero-auth-input-wrap">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    <div class="hero-auth-password-dots">
+                      <span class="hero-auth-dot"></span><span class="hero-auth-dot"></span><span class="hero-auth-dot"></span><span class="hero-auth-dot"></span>
+                      <span class="hero-auth-dot"></span><span class="hero-auth-dot"></span><span class="hero-auth-dot"></span><span class="hero-auth-dot"></span>
+                    </div>
+                  </div>
+                  <button class="button button-primary hero-auth-btn js-hero-auth-btn" type="button">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M17.5 19H9a7 7 0 1 1 6.71-5h.79a3 3 0 1 1 0 6h-.79l1.79-1z"/></svg>
+                    Open in Incognito
+                  </button>
+                </div>
+                <div class="hero-auth-status js-hero-auth-status">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Verified</span>
                 </div>
               </div>
             </div>
+
+            <!-- Incognito window -->
+            <div class="hero-incognito-window js-hero-incognito">
+              <div class="hero-incognito-titlebar">
+                <div class="hero-incognito-dots">
+                  <span class="dot-red"></span>
+                  <span class="dot-yellow"></span>
+                  <span class="dot-green"></span>
+                </div>
+                <div class="hero-incognito-tabs">
+                  <div class="hero-incognito-tab is-active">
+                    <span class="hero-incognito-tab-label">Protected Site</span>
+                  </div>
+                </div>
+                <div class="hero-incognito-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-5h.79a3 3 0 1 1 0 6h-.79l1.79-1z"/></svg>
+                </div>
+              </div>
+              <div class="hero-incognito-urlbar">
+                <div class="hero-incognito-nav-btns">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                </div>
+                <div class="hero-incognito-url-input">
+                  <span class="hero-incognito-lock">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#78e4ab" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </span>
+                  <span class="hero-incognito-url-text">https://protected.example/private</span>
+                </div>
+              </div>
+              <div class="hero-incognito-body">
+                <div class="hero-incognito-page">
+                  <div class="hero-page-top">
+                    <div class="hero-page-logo-box"></div>
+                    <div class="hero-page-links">
+                      <span></span><span></span><span></span>
+                    </div>
+                  </div>
+                  <div class="hero-page-hero-area">
+                    <div class="hero-page-h1"></div>
+                    <div class="hero-page-h2"></div>
+                    <div class="hero-page-cta-pill"></div>
+                  </div>
+                </div>
+                <div class="hero-incognito-success-badge">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#78e4ab" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>Opened safely in separate context</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Transfer beam -->
+            <div class="hero-transfer-beam js-hero-transfer-beam" aria-hidden="true"></div>
           </div>
         </div>
       </section>
