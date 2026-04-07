@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ja" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GhostMark Premium | Private bookmark protection for Chrome</title>
+  <meta
+    name="description"
+    content="GhostMark は、暗号化したプライベートブックマークを通常タブから隔離し、認証後にシークレットウィンドウで開く Chrome 拡張機能です。GhostMark Premium ではフォルダ別パスワード、デュレスモード、暗号化バックアップ、パニックショートカットを利用できます。"
+  >
+  <meta name="theme-color" content="#08090c">
+  <meta property="og:title" content="GhostMark Premium">
+  <meta property="og:description" content="Private links deserve a second door. Local-only bookmark protection for Chrome.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="GhostMark top">
+        <img src="assets/logo-mark.svg" alt="" class="brand-mark">
+        <span class="brand-lockup">
+          <span class="brand-name">GhostMark</span>
+          <span class="brand-sub">Private bookmark protection</span>
+        </span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#workflow">How it works</a>
+        <a href="#premium">Premium</a>
+        <a href="#security">Security</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="site-actions">
+        <a class="button button-ghost" href="#premium">プランを見る</a>
+        <a class="button button-primary js-checkout-link" href="#premium">Premium を購入</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow">Chrome Extension / Local-only encryption / Incognito handoff</p>
+          <div class="hero-heading-wrap">
+            <p class="hero-brand">GhostMark Premium</p>
+            <h1 class="js-hero-title">開いてから守るのではなく、開く前に止める。</h1>
+          </div>
+          <p class="hero-lead js-hero-lead">
+            GhostMark は、保存したプライベートリンクをローカルで暗号化し、
+            通常タブで保護 URL が開かれた瞬間に遮断します。
+            認証に成功したときだけ、シークレットウィンドウへ引き渡します。
+          </p>
+          <div class="hero-actions js-hero-actions">
+            <a class="button button-primary js-checkout-link" href="#premium">Premium を購入</a>
+            <a class="button button-ghost" href="#overview">機能を確認</a>
+          </div>
+          <ul class="hero-proof js-hero-proof" aria-label="Key points">
+            <li>ブックマーク情報はローカル暗号化保存</li>
+            <li>通常タブを監視し、保護 URL を遮断</li>
+            <li>認証後のみシークレットウィンドウで開く</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" data-reveal aria-hidden="true">
+          <div class="hero-glow"></div>
+
+          <div class="visual-column visual-column-left">
+            <div class="mini-browser mini-browser-danger">
+              <div class="mini-browser-bar">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="mini-browser-url">
+                <span class="url-dot"></span>
+                protected.example/private
+              </div>
+              <div class="mini-browser-body">
+                <div class="mini-browser-alert">
+                  <p class="alert-kicker">Regular tab</p>
+                  <p class="alert-title">Blocked before browsing continues</p>
+                  <p class="alert-copy">GhostMark detects the protected URL and removes the tab from the normal browsing flow.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="visual-column visual-column-center">
+            <div class="lock-panel">
+              <div class="lock-panel-top">
+                <img src="assets/logo-mark.svg" alt="" class="lock-panel-mark">
+                <div>
+                  <p class="lock-panel-title">認証ゲート</p>
+                  <p class="lock-panel-copy">Master password or folder password</p>
+                </div>
+              </div>
+              <div class="lock-panel-form">
+                <label>
+                  Password
+                  <span class="input-shell">••••••••••••</span>
+                </label>
+                <button class="button button-primary lock-panel-button" type="button">シークレットで開く</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="visual-column visual-column-right">
+            <div class="mini-browser mini-browser-safe">
+              <div class="mini-browser-bar">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="mini-browser-url">
+                <span class="url-dot url-dot-safe"></span>
+                Incognito window
+              </div>
+              <div class="mini-browser-body">
+                <div class="mini-browser-note">
+                  <p class="alert-kicker">After unlock</p>
+                  <p class="alert-title">Private page opens in a separate context</p>
+                  <p class="alert-copy">Session timeout, manual lock, and premium panic close keep the escape route short.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="overview" class="section section-overview">
+        <div class="section-head" data-reveal>
+          <p class="section-kicker">Overview</p>
+          <h2 class="js-section-title">GhostMark が販売するもの</h2>
+        </div>
+
+        <div class="offer-grid js-tilt-surface" data-reveal>
+          <div class="offer-copy">
+            <p>
+              GhostMark は Chrome 向けのプライベートブックマーク保護拡張機能です。
+              販売対象は <strong>GhostMark Premium ライセンス</strong> で、
+              拡張機能内でライセンスキーを入力して有効化します。
+            </p>
+            <p>
+              Premium では、フォルダ別パスワード、緊急用デュレスモード、
+              暗号化バックアップの export / import、
+              保護タブを即時に閉じるパニックショートカットが解放されます。
+            </p>
+          </div>
+
+          <dl class="offer-meta" aria-label="Offer details">
+            <div class="offer-meta-item">
+              <dt>商品種別</dt>
+              <dd>Chrome 拡張機能のデジタルライセンス</dd>
+            </div>
+            <div class="offer-meta-item">
+              <dt>提供形態</dt>
+              <dd>ライセンスキーの発行と拡張機能内アクティベート</dd>
+            </div>
+            <div class="offer-meta-item">
+              <dt>保存場所</dt>
+              <dd>ブックマーク情報はローカル保存。GhostMark 自体は保護データをサーバー送信しません。</dd>
+            </div>
+            <div class="offer-meta-item">
+              <dt>対象</dt>
+              <dd>個人利用、共有 PC、履歴をなるべく残したくない閲覧フロー</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section id="workflow" class="section section-workflow">
+        <div class="section-head" data-reveal>
+          <p class="section-kicker">How it works</p>
+          <h2 class="js-section-title">3 段階で private link を隔離する</h2>
+        </div>
+
+        <div class="workflow-rail" data-reveal>
+          <article class="workflow-step">
+            <span class="step-index">01</span>
+            <h3>保存時に暗号化</h3>
+            <p>URL とタイトルをローカルで暗号化して保存。通常一覧から生 URL を露出しません。</p>
+          </article>
+          <article class="workflow-step">
+            <span class="step-index">02</span>
+            <h3>通常タブを即遮断</h3>
+            <p>保護対象 URL を通常タブで開くと、GhostMark が検知してロック画面へ差し替えます。</p>
+          </article>
+          <article class="workflow-step">
+            <span class="step-index">03</span>
+            <h3>認証後だけ別文脈へ</h3>
+            <p>正しいパスワード入力後にのみ、シークレットウィンドウへ URL を引き渡します。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section section-showcase">
+        <div class="section-head" data-reveal>
+          <p class="section-kicker">Use cases</p>
+          <h2 class="js-section-title">「秘密の URL を URL のまま扱わない」ための UI</h2>
+        </div>
+
+        <div class="showcase-grid">
+          <div class="showcase-copy" data-reveal>
+            <p>
+              フォルダ整理、検索、現在タブの即追加、ブラウザブックマークの取り込み、
+              セッションタイムアウト、手動ロック。
+              GhostMark はブックマーク管理を複雑化するのではなく、
+              <strong>普段の操作を崩さずに private な導線だけ強くする</strong> ことを狙っています。
+            </p>
+            <p>
+              Premium を有効化すると、フォルダ単位の二段階保護や、
+              別データを見せるデュレスモードまで拡張できます。
+            </p>
+          </div>
+
+          <div class="showcase-strip" data-reveal>
+            <div class="showcase-item">
+              <p class="showcase-label">Free core</p>
+              <p class="showcase-value">Local-only encrypted bookmarks</p>
+            </div>
+            <div class="showcase-item">
+              <p class="showcase-label">Premium security</p>
+              <p class="showcase-value">Folder password / Duress / Panic close</p>
+            </div>
+            <div class="showcase-item">
+              <p class="showcase-label">Operational safety</p>
+              <p class="showcase-value">Session timeout / Manual lock / Backup restore</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="premium" class="section section-premium">
+        <div class="section-head" data-reveal>
+          <p class="section-kicker">Premium plan</p>
+          <h2 class="js-section-title">必要なときだけ、保護レイヤーをもう一段増やす</h2>
+        </div>
+
+        <div class="plan-shell js-tilt-surface" data-reveal>
+          <div class="plan-side">
+            <p class="plan-tag">GhostMark Premium license</p>
+            <h3>販売内容</h3>
+            <p class="plan-lead">
+              購入後に発行されるライセンスキーで、GhostMark 拡張機能内の Premium 機能を有効化します。
+            </p>
+            <dl class="plan-facts">
+              <div class="plan-fact-item">
+                <dt>価格表示</dt>
+                <dd class="js-price-label">GhostMark Premium ライセンス</dd>
+              </div>
+              <div class="plan-fact-item">
+                <dt>提供方式</dt>
+                <dd class="js-billing-label">ライセンスキー配布</dd>
+              </div>
+              <div class="plan-fact-item">
+                <dt>サポート</dt>
+                <dd><a class="support-link js-support-link" href="#faq">購入前の確認事項を見る</a></dd>
+              </div>
+            </dl>
+            <div class="plan-actions">
+              <a class="button button-primary js-checkout-link" href="#premium">Premium の案内を見る</a>
+              <a class="button button-ghost js-store-link" href="#overview">製品概要を見る</a>
+            </div>
+          </div>
+
+          <div class="plan-table" role="table" aria-label="Free and Premium feature comparison">
+            <div class="plan-table-head" role="row">
+              <span role="columnheader">機能</span>
+              <span role="columnheader">Free</span>
+              <span role="columnheader">Premium</span>
+            </div>
+            <div class="plan-table-row" role="row">
+              <span role="cell">ローカル暗号化保存</span>
+              <span role="cell">対応</span>
+              <span role="cell">対応</span>
+            </div>
+            <div class="plan-table-row" role="row">
+              <span role="cell">通常タブ遮断 + シークレット再オープン</span>
+              <span role="cell">対応</span>
+              <span role="cell">対応</span>
+            </div>
+            <div class="plan-table-row" role="row">
+              <span role="cell">セッションタイムアウト / 手動ロック</span>
+              <span role="cell">対応</span>
+              <span role="cell">対応</span>
+            </div>
+            <div class="plan-table-row is-highlight" role="row">
+              <span role="cell">フォルダ別パスワード</span>
+              <span role="cell">-</span>
+              <span role="cell">対応</span>
+            </div>
+            <div class="plan-table-row is-highlight" role="row">
+              <span role="cell">パニックショートカット</span>
+              <span role="cell">-</span>
+              <span role="cell">対応</span>
+            </div>
+            <div class="plan-table-row is-highlight" role="row">
+              <span role="cell">緊急解除パスワード / デュレスモード</span>
+              <span role="cell">-</span>
+              <span role="cell">対応</span>
+            </div>
+            <div class="plan-table-row is-highlight" role="row">
+              <span role="cell">暗号化バックアップ export / import</span>
+              <span role="cell">-</span>
+              <span role="cell">対応</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="security" class="section section-security">
+        <div class="section-head" data-reveal>
+          <p class="section-kicker">Security posture</p>
+          <h2 class="js-section-title">誇張しない。できることと、できないことを明記する。</h2>
+        </div>
+
+        <div class="security-grid" data-reveal>
+          <div>
+            <h3>GhostMark が守る範囲</h3>
+            <ul class="plain-list">
+              <li>ローカル保存時の URL / タイトル暗号化</li>
+              <li>通常タブでの protected URL アクセス抑止</li>
+              <li>シークレットウィンドウへの限定的な再オープン</li>
+              <li>セッション終了時の解除情報クリア</li>
+            </ul>
+          </div>
+          <div>
+            <h3>GhostMark が保証しない範囲</h3>
+            <ul class="plain-list">
+              <li>DNS や OS / ルーター側の通信ログ秘匿</li>
+              <li>Chrome API の仕様を超えた完全な履歴不可視化</li>
+              <li>VPN や匿名化サービスの代替</li>
+              <li>クラウド同期型の秘密保管庫</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="section section-faq">
+        <div class="section-head" data-reveal>
+          <p class="section-kicker">FAQ</p>
+          <h2 class="js-section-title">Stripe 審査や購入前確認で見られやすい点</h2>
+        </div>
+
+        <div class="faq-list" data-reveal>
+          <details>
+            <summary>GhostMark Premium で販売しているのは何ですか？</summary>
+            <p>Chrome 拡張機能 GhostMark の Premium 機能を有効化するデジタルライセンスです。購入後にライセンスキーを発行し、拡張機能内でアクティベートします。</p>
+          </details>
+          <details>
+            <summary>ブックマークデータはサーバーに送られますか？</summary>
+            <p>GhostMark の保護対象ブックマークはローカル保存を前提にしており、保護データ自体を GhostMark のサーバーへ送る設計ではありません。</p>
+          </details>
+          <details>
+            <summary>Premium を買わないと使えませんか？</summary>
+            <p>いいえ。基本の暗号化保存、通常タブ遮断、認証後のシークレット再オープン、セッション管理は無料プランで利用できます。</p>
+          </details>
+          <details>
+            <summary>どの機能が Premium ですか？</summary>
+            <p>フォルダ別パスワード、パニックショートカット、緊急解除パスワードによるデュレスモード、暗号化バックアップの export / import が Premium 対象です。</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="section section-cta" data-reveal>
+        <div class="cta-shell">
+          <p class="section-kicker">Final CTA</p>
+          <h2>Private links deserve a second door.</h2>
+          <p>
+            GhostMark Premium は、Chrome の普段の操作感を壊さずに、
+            private URL だけ保護導線を切り替えるためのデジタルライセンスです。
+          </p>
+          <div class="cta-actions">
+            <a class="button button-primary js-checkout-link" href="#premium">Premium を購入</a>
+            <a class="button button-ghost js-support-link" href="mailto:support@example.com">問い合わせる</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-brand">GhostMark</p>
+        <p class="footer-copy">Private bookmark protection for Chrome.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#overview">Product</a>
+        <a href="#premium">Premium</a>
+        <a href="#security">Security</a>
+        <a class="js-support-link" href="mailto:support@example.com">Support</a>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
