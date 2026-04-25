@@ -1,39 +1,6 @@
-<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="bg" x1="20" y1="16" x2="112" y2="116" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#111423"/>
-      <stop offset="1" stop-color="#322252"/>
-    </linearGradient>
-    <radialGradient id="aura" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(92 28) rotate(135) scale(70)">
-      <stop stop-color="#A98EE8" stop-opacity=".44"/>
-      <stop offset="1" stop-color="#A98EE8" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="frame" x1="24" y1="18" x2="104" y2="112" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#B59EFF" stop-opacity=".58"/>
-      <stop offset="1" stop-color="#6F53B5" stop-opacity=".22"/>
-    </linearGradient>
-    <linearGradient id="mark" x1="64" y1="26" x2="64" y2="96" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFFFFF"/>
-      <stop offset="1" stop-color="#DAD1FF"/>
-    </linearGradient>
-    <filter id="drop" x="6" y="8" width="116" height="118" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-      <feOffset dy="10"/>
-      <feGaussianBlur stdDeviation="8"/>
-      <feComposite in2="hardAlpha" operator="out"/>
-      <feColorMatrix type="matrix" values="0 0 0 0 0.0313726 0 0 0 0 0.0431373 0 0 0 0 0.101961 0 0 0 0.38 0"/>
-      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
-      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
-    </filter>
-  </defs>
-  <rect x="12" y="12" width="104" height="104" rx="28" fill="url(#bg)"/>
-  <rect x="12" y="12" width="104" height="104" rx="28" fill="url(#aura)"/>
-  <rect x="13.25" y="13.25" width="101.5" height="101.5" rx="26.75" stroke="url(#frame)" stroke-width="1.5"/>
-  <g filter="url(#drop)">
-    <circle cx="64" cy="54" r="30" fill="url(#mark)"/>
-    <path d="M34 54H94V90C94 93.66 90.02 95.92 86.88 94.03L70 83.9L64 88L58 83.9L41.12 94.03C37.98 95.92 34 93.66 34 90V54Z" fill="url(#mark)"/>
-    <ellipse cx="53.5" cy="54.5" rx="6" ry="8" fill="#2A2047"/>
-    <ellipse cx="74.5" cy="54.5" rx="6" ry="8" fill="#2A2047"/>
-  </g>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="768" height="768" viewBox="0 0 768 768" version="1.1">
+  <title>NinjaMark master icon</title>
+  <desc>Visually identical SVG wrapper embedding the original PNG artwork.</desc>
+  <image x="0" y="0" width="768" height="768"></image>
 </svg>

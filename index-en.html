@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NinjaMark — Private Bookmark Protection</title>
+  <meta
+    name="description"
+    content="NinjaMark encrypts secret bookmarks locally, silently blocks protected URLs in normal tabs, clears browser history, and only hands them off to an incognito window after authentication. Free features include watchlist domain blocking, tracker stripping, and privacy stats. Premium adds per-folder passwords, duress mode, encrypted backups, and a panic shortcut."
+  >
+  <meta name="theme-color" content="#050609">
+  <meta property="og:title" content="NinjaMark Premium">
+  <meta property="og:description" content="Watch tabs like a ninja and reroute secret URLs before they open. Local-encrypted bookmark protection for Chrome.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets_v2/ninjamark-48.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+  <svg class="noise" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <filter id="n">
+      <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="4" stitchTiles="stitch"></feTurbulence>
+      <feColorMatrix type="saturate" values="0"></feColorMatrix>
+    </filter>
+    <rect width="100%" height="100%" filter="url(#n)"></rect>
+  </svg>
+  <div id="cursorGlow" aria-hidden="true"></div>
+
+  <div class="page-wrap">
+    <header class="nav" id="top">
+      <a class="nav-brand" href="#top" aria-label="NinjaMark top">
+        <img src="assets_v2/ninjamark-128.png" class="nav-logo" alt="">
+        <span class="nav-brand-text">
+          <span class="nav-name">NinjaMark</span>
+          <span class="nav-tagline">Private Bookmark Protection</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigation">
+        <a href="#workflow">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+          How it works
+        </a>
+        <a href="#premium">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          Premium
+        </a>
+        <a href="#security">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          Security
+        </a>
+        <a href="#faq">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          FAQ
+        </a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="nav-status"><span class="nav-status-dot"></span>v1.1.0</div>
+        <a href="index.html" class="btn btn-ghost btn-xs" aria-label="Switch to Japanese">JP</a>
+        <a href="#premium" class="btn btn-ghost btn-sm">See plans</a>
+        <a href="#premium" class="btn btn-primary btn-sm js-checkout-link">Get Premium</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero-copy">
+          <p class="label hero-eyebrow js-fade-in" data-delay="180">Chrome Extension / Local Encryption / Incognito Handoff</p>
+          <div class="hero-title-block">
+            <p class="hero-brand js-fade-in" data-delay="300">NinjaMark Premium</p>
+            <h1 class="js-split-title">Watch silently. Guard before it opens.</h1>
+          </div>
+          <p class="hero-lead js-fade-in" data-delay="700">
+            NinjaMark encrypts secret bookmarks locally and intercepts protected URLs the moment they appear in a normal tab.
+            Only after the correct password is confirmed does it hand them off to an incognito window.
+          </p>
+          <div class="hero-ctas js-fade-in" data-delay="900">
+            <a href="#premium" class="btn btn-primary btn-lg js-checkout-link">Get Premium</a>
+            <a href="#overview" class="btn btn-ghost btn-lg">See features</a>
+          </div>
+          <ul class="hero-proof js-fade-in" data-delay="1100">
+            <li>Secret URLs and titles stored with local encryption</li>
+            <li>Normal tabs are monitored, blocked, and cleaned from history</li>
+            <li>Watchlist domains can be protected without bookmarking</li>
+            <li>Protected pages open in incognito only after authentication</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hero-orb hero-orb-1"></div>
+          <div class="hero-orb hero-orb-2"></div>
+
+          <div class="browser-stage">
+            <div class="cwin js-chrome">
+              <div class="cwin-titlebar">
+                <div class="cwin-dots">
+                  <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+                </div>
+                <div class="cwin-tabs">
+                  <div class="cwin-tab is-active"><span>Protected site</span></div>
+                  <div class="cwin-tab"><span>Dashboard</span></div>
+                </div>
+              </div>
+              <div class="cwin-urlbar">
+                <div class="cwin-nav-btns">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+                <div class="cwin-url js-cwin-url">
+                  <span class="cwin-lock js-cwin-lock">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  </span>
+                  <span class="cwin-url-text js-cwin-url-text">https://protected.example/private</span>
+                </div>
+              </div>
+              <div class="cwin-body">
+                <div class="page-skel js-page-skel">
+                  <div class="skel-nav">
+                    <div class="skel-logo"></div>
+                    <div class="skel-links"><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="skel-hero">
+                    <div class="skel-h1"></div>
+                    <div class="skel-h2"></div>
+                    <div class="skel-cta"></div>
+                  </div>
+                  <div class="skel-grid">
+                    <div class="skel-card"><div class="skel-icon"></div><div class="skel-text"></div><div class="skel-text skel-text--sm"></div></div>
+                    <div class="skel-card"><div class="skel-icon"></div><div class="skel-text"></div><div class="skel-text skel-text--sm"></div></div>
+                    <div class="skel-card"><div class="skel-icon"></div><div class="skel-text"></div><div class="skel-text skel-text--sm"></div></div>
+                  </div>
+                </div>
+
+                <div class="block-overlay js-block-overlay">
+                  <div class="block-inner">
+                    <div class="block-icon">
+                      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                      </svg>
+                    </div>
+                    <p class="block-kicker">NinjaMark Watchdog</p>
+                    <p class="block-title">This page has been blocked</p>
+                    <p class="block-copy">URL <code>protected.example/private</code> is on your protected list.<br>Access in a normal tab is not allowed.</p>
+                  </div>
+                </div>
+
+                <div class="auth-gate js-auth-gate">
+                  <div class="auth-inner">
+                    <div class="auth-brand">
+                      <img src="assets_v2/ninjamark-128.png" class="auth-logo" alt="">
+                      <div>
+                        <p class="auth-name">NinjaMark</p>
+                        <p class="auth-hint">Enter your password to open in incognito</p>
+                      </div>
+                    </div>
+                    <div class="auth-field">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                      <div class="auth-dots">
+                        <span class="auth-dot"></span><span class="auth-dot"></span><span class="auth-dot"></span><span class="auth-dot"></span>
+                        <span class="auth-dot"></span><span class="auth-dot"></span><span class="auth-dot"></span><span class="auth-dot"></span>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary auth-unlock-btn js-auth-btn" type="button">Open in incognito</button>
+                    <div class="auth-verified js-auth-status">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                      Authenticated
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="iwin js-incognito">
+              <div class="cwin-titlebar iwin-titlebar">
+                <div class="cwin-dots">
+                  <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+                </div>
+                <div class="cwin-tabs">
+                  <div class="cwin-tab is-active"><span>Protected site</span></div>
+                </div>
+                <div class="iwin-badge">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-5h.79a3 3 0 1 1 0 6h-.79l1.79-1z"></path></svg>
+                </div>
+              </div>
+              <div class="cwin-urlbar iwin-urlbar">
+                <div class="cwin-nav-btns">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+                <div class="cwin-url">
+                  <span style="flex-shrink:0">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#4de899" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                  </span>
+                  <span class="cwin-url-text">https://protected.example/private</span>
+                </div>
+              </div>
+              <div class="cwin-body iwin-body">
+                <div class="iwin-page">
+                  <div class="skel-nav"><div class="skel-logo"></div><div class="skel-links"><span></span><span></span></div></div>
+                  <div class="skel-hero"><div class="skel-h1"></div><div class="skel-h2"></div><div class="skel-cta"></div></div>
+                </div>
+                <div class="iwin-success">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4de899" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                  Opened safely in a separate context
+                </div>
+              </div>
+            </div>
+
+            <div class="transfer-beam js-beam" aria-hidden="true"></div>
+          </div>
+
+          <div class="demo-controls">
+            <button class="demo-btn js-demo-btn is-active" data-phase="0" type="button"><span class="demo-dot"></span>Normal tab</button>
+            <button class="demo-btn js-demo-btn" data-phase="1" type="button"><span class="demo-dot"></span>Block</button>
+            <button class="demo-btn js-demo-btn" data-phase="2" type="button"><span class="demo-dot"></span>Auth</button>
+            <button class="demo-btn js-demo-btn" data-phase="3" type="button"><span class="demo-dot"></span>Open</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="feature-strip js-reveal">
+        <div class="feature-strip-item">
+          <div class="feature-strip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </div>
+          <div class="feature-strip-text">
+            <p class="feature-strip-title">Local encryption</p>
+            <p class="feature-strip-desc">URLs and titles stay sealed on your device</p>
+          </div>
+        </div>
+        <div class="feature-strip-item">
+          <div class="feature-strip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          </div>
+          <div class="feature-strip-text">
+            <p class="feature-strip-title">Tab blocking</p>
+            <p class="feature-strip-desc">Normal tabs are blocked and history is cleared</p>
+          </div>
+        </div>
+        <div class="feature-strip-item">
+          <div class="feature-strip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-5h.79a3 3 0 1 1 0 6h-.79l1.79-1z"></path></svg>
+          </div>
+          <div class="feature-strip-text">
+            <p class="feature-strip-title">Incognito only</p>
+            <p class="feature-strip-desc">Unlocked pages reroute to a separate window</p>
+          </div>
+        </div>
+        <div class="feature-strip-item">
+          <div class="feature-strip-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <div class="feature-strip-text">
+            <p class="feature-strip-title">Watchlist</p>
+            <p class="feature-strip-desc">Protect domains even without bookmarks</p>
+          </div>
+        </div>
+      </div>
+
+      <section id="overview" class="section">
+        <div class="section-head js-reveal">
+          <p class="label">Overview</p>
+          <h2>What the license unlocks</h2>
+        </div>
+        <div class="overview-grid js-reveal js-tilt">
+          <div class="overview-copy">
+            <p>NinjaMark is a private bookmark protection extension for Chrome. What you purchase is a <strong>NinjaMark Premium license</strong>, activated by entering a license key inside the extension.</p>
+            <p>Premium unlocks per-folder passwords, an emergency duress mode, encrypted backup export/import, and a panic shortcut that instantly closes protected tabs.</p>
+          </div>
+          <dl class="overview-meta">
+            <div class="meta-item"><dt>Product type</dt><dd>Digital license for a Chrome extension</dd></div>
+            <div class="meta-item"><dt>Delivery</dt><dd>License key issuance and in-extension activation</dd></div>
+            <div class="meta-item"><dt>Storage</dt><dd>Bookmark data stays local. NinjaMark does not send protected data to any server.</dd></div>
+            <div class="meta-item"><dt>Best for</dt><dd>Personal use, shared computers, and URLs you do not want left in browser history</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section id="workflow" class="section">
+        <div class="section-head js-reveal">
+          <p class="label">How it works</p>
+          <h2>Three stages to reroute<br>a protected URL</h2>
+        </div>
+        <div class="workflow-timeline js-reveal">
+          <div class="timeline-step">
+            <div class="timeline-num">01</div>
+            <div class="timeline-step-body">
+              <h3>Encrypt on save</h3>
+              <p>URLs and titles are encrypted locally the moment you store them.</p>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">02</div>
+            <div class="timeline-step-body">
+              <h3>Block the normal tab and clear history</h3>
+              <p>When a protected URL opens in a normal tab, NinjaMark detects it, swaps in a lock screen, and removes the visit from browser history. Watchlist domains are blocked the same way.</p>
+            </div>
+          </div>
+          <div class="timeline-step">
+            <div class="timeline-num">03</div>
+            <div class="timeline-step-body">
+              <h3>Open only after authentication</h3>
+              <p>Only after the correct password is confirmed does NinjaMark pass the URL into an incognito window.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-features">
+        <div class="features-grid js-reveal">
+          <div class="feature-card">
+            <div class="feature-card-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <p class="feature-card-title">Local encrypted storage</p>
+            <p class="feature-card-desc">URLs and titles are encrypted on-device. Nothing sensitive is sent to NinjaMark servers.</p>
+            <span class="feature-card-badge">Free</span>
+          </div>
+          <div class="feature-card feature-card--cyan">
+            <div class="feature-card-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            </div>
+            <p class="feature-card-title">Tab monitoring and history cleanup</p>
+            <p class="feature-card-desc">Protected URLs are blocked in normal tabs and automatically removed from browser history.</p>
+            <span class="feature-card-badge">Free</span>
+          </div>
+          <div class="feature-card feature-card--green">
+            <div class="feature-card-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-5h.79a3 3 0 1 1 0 6h-.79l1.79-1z"></path></svg>
+            </div>
+            <p class="feature-card-title">Incognito-only handoff</p>
+            <p class="feature-card-desc">Pages are handed off only after authentication, never directly inside a normal browsing context.</p>
+            <span class="feature-card-badge">Free</span>
+          </div>
+          <div class="feature-card">
+            <div class="feature-card-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>
+            </div>
+            <p class="feature-card-title">Per-folder passwords</p>
+            <p class="feature-card-desc">Set extra passwords for specific folders and create multiple protection layers.</p>
+            <span class="feature-card-badge">Premium</span>
+          </div>
+          <div class="feature-card feature-card--cyan">
+            <div class="feature-card-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+            </div>
+            <p class="feature-card-title">Panic shortcut</p>
+            <p class="feature-card-desc">Use Alt+Shift+X to instantly close protected tabs when you need an immediate exit.</p>
+            <span class="feature-card-badge">Premium</span>
+          </div>
+          <div class="feature-card feature-card--green">
+            <div class="feature-card-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+            </div>
+            <p class="feature-card-title">Encrypted backups</p>
+            <p class="feature-card-desc">Export and import your protected bookmarks while keeping them encrypted.</p>
+            <span class="feature-card-badge">Premium</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section-showcase">
+        <div class="section-head js-reveal">
+          <p class="label">Use cases</p>
+          <h2>Keep secret URLs from being treated like ordinary links</h2>
+        </div>
+        <div class="showcase-grid">
+          <div class="showcase-copy js-reveal">
+            <p>Folder organization, in-folder search, quick-add from the current tab, session timeout, and manual lock. NinjaMark is designed to strengthen only the secret path while keeping normal bookmark habits intact.</p>
+            <p>Version 1.1.0 added <strong>watchlist domain blocking</strong> without bookmarking, <strong>history cleanup</strong> that removes blocked visits immediately, <strong>tracker stripping</strong> that removes tracking parameters, and a free privacy stats dashboard.</p>
+            <p>With Premium enabled, you can extend protection with per-folder passwords, a duress mode that reveals decoy data, encrypted backups, and a <code class="inline-code">Alt+Shift+X</code> panic shortcut.</p>
+          </div>
+          <div class="showcase-strip js-reveal">
+            <div class="showcase-item">
+              <p class="showcase-label">Free core</p>
+              <p class="showcase-val">Local encryption + tab blocking + watchlist + history cleanup</p>
+            </div>
+            <div class="showcase-item">
+              <p class="showcase-label">Premium security</p>
+              <p class="showcase-val">Per-folder passwords / duress / panic shortcut</p>
+            </div>
+            <div class="showcase-item">
+              <p class="showcase-label">Operational safety</p>
+              <p class="showcase-val">Session timeout / manual lock / encrypted backup / stats</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="premium" class="section">
+        <div class="section-head js-reveal">
+          <p class="label">Premium plan</p>
+          <h2>Add one more protection layer only when you need it</h2>
+        </div>
+        <div class="plan-shell js-reveal js-tilt">
+          <div class="plan-side">
+            <p class="plan-tag">NinjaMark Premium license</p>
+            <h3>What you buy</h3>
+            <p class="plan-lead">A license key issued after purchase unlocks Premium features inside the NinjaMark extension.</p>
+            <dl class="plan-meta">
+              <div class="meta-item"><dt>Displayed price</dt><dd class="js-price-label">NinjaMark Premium license</dd></div>
+              <div class="meta-item"><dt>Delivery</dt><dd class="js-billing-label">License key delivery</dd></div>
+              <div class="meta-item"><dt>Support</dt><dd><a class="text-link js-support-link" href="#faq">Review pre-purchase questions</a></dd></div>
+            </dl>
+            <div class="plan-actions">
+              <a class="btn btn-primary js-checkout-link" href="#premium">Get Premium</a>
+              <a class="btn btn-ghost js-store-link" href="#overview">View product overview</a>
+            </div>
+          </div>
+          <div class="plan-table" role="table" aria-label="Feature comparison between free and Premium">
+            <div class="plan-table-head" role="row">
+              <span role="columnheader">Feature</span>
+              <span role="columnheader">Free</span>
+              <span role="columnheader">Premium</span>
+            </div>
+            <div class="plan-row" role="row"><span>Local encrypted storage</span><span>✓</span><span>✓</span></div>
+            <div class="plan-row" role="row"><span>Normal-tab blocking + incognito reopen</span><span>✓</span><span>✓</span></div>
+            <div class="plan-row" role="row"><span>Watchlist domain blocking</span><span>✓</span><span>✓</span></div>
+            <div class="plan-row" role="row"><span>History cleanup / tracker stripping</span><span>✓</span><span>✓</span></div>
+            <div class="plan-row" role="row"><span>Privacy stats dashboard</span><span>✓</span><span>✓</span></div>
+            <div class="plan-row" role="row"><span>Session timeout / manual lock</span><span>✓</span><span>✓</span></div>
+            <div class="plan-row plan-row--premium" role="row"><span>Per-folder passwords</span><span>—</span><span>✓</span></div>
+            <div class="plan-row plan-row--premium" role="row"><span>Panic shortcut (Alt+Shift+X)</span><span>—</span><span>✓</span></div>
+            <div class="plan-row plan-row--premium" role="row"><span>Duress mode / emergency password</span><span>—</span><span>✓</span></div>
+            <div class="plan-row plan-row--premium" role="row"><span>Encrypted backup export/import</span><span>—</span><span>✓</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="security" class="section">
+        <div class="section-head js-reveal">
+          <p class="label">Security</p>
+          <h2>No exaggeration. Be explicit about what it does and does not protect.</h2>
+        </div>
+        <div class="security-grid js-reveal">
+          <div>
+            <h3>What NinjaMark does protect</h3>
+            <ul class="plain-list">
+              <li>Local encryption for bookmark URLs and titles</li>
+              <li>Blocking protected URLs in normal tabs for bookmarks and watchlist domains</li>
+              <li>Automatic history cleanup and tracker parameter removal when a tab is blocked</li>
+              <li>Routing protected pages into incognito only after authentication</li>
+              <li>Clearing unlocked state when the session ends</li>
+            </ul>
+          </div>
+          <div>
+            <h3>What NinjaMark does not claim</h3>
+            <ul class="plain-list">
+              <li>Perfect secrecy for all metadata such as folder names</li>
+              <li>Hiding DNS activity or network logs from the OS or router</li>
+              <li>Complete invisibility beyond the limits of Chrome APIs</li>
+              <li>Replacing a VPN or anonymity service</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="section">
+        <div class="section-head js-reveal">
+          <p class="label">FAQ</p>
+          <h2>Common questions before purchase</h2>
+        </div>
+        <div class="faq-list js-reveal">
+          <details class="faq-item"><summary>What is sold as NinjaMark Premium?</summary><p>It is a digital license that unlocks Premium features inside the NinjaMark Chrome extension. After purchase, you receive a license key and activate it in the extension.</p></details>
+          <details class="faq-item"><summary>Is bookmark data sent to a server?</summary><p>No. Protected bookmark data is designed to stay local, and NinjaMark does not send that data to its own servers.</p></details>
+          <details class="faq-item"><summary>What gets encrypted?</summary><p>Bookmark URLs and titles are encrypted locally. Folder names remain plaintext so they can still be listed in the UI.</p></details>
+          <details class="faq-item"><summary>Do I need Premium to use the extension?</summary><p>No. Core encrypted storage, normal-tab blocking, incognito reopen after authentication, and session controls are available on the free plan.</p></details>
+          <details class="faq-item"><summary>Which features are Premium-only?</summary><p>Per-folder passwords, the panic shortcut, duress mode with an emergency password, and encrypted backup export/import are Premium features.</p></details>
+          <details class="faq-item"><summary>Which permissions or settings are required?</summary><p>The <code>tabs</code> permission is optional. When granted, it enables automatic blocking by tab monitoring and quick-add from the current tab. To open protected URLs in incognito, Chrome's “Allow in Incognito” setting must also be enabled.</p></details>
+          <details class="faq-item"><summary>What is the watchlist?</summary><p>The watchlist lets you register domains without saving a bookmark. Access to those domains is blocked through the same lock-screen flow as protected bookmarks.</p></details>
+        </div>
+      </section>
+
+      <section class="section section-cta js-reveal">
+        <div class="cta-shell">
+          <p class="label">Final call</p>
+          <h2>Secret URLs need one more door.</h2>
+          <p>NinjaMark Premium is a digital license for rerouting only protected URLs without breaking the normal feel of using Chrome every day.</p>
+          <div class="cta-actions">
+            <a class="btn btn-primary btn-lg js-checkout-link" href="#premium">Get Premium</a>
+            <a class="btn btn-ghost btn-lg js-support-link" href="#faq">Contact support</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <p class="footer-name">NinjaMark</p>
+        <p class="footer-copy">Private bookmark protection for Chrome.</p>
+      </div>
+      <div class="footer-links">
+        <a href="#overview">Product</a>
+        <a href="#premium">Premium</a>
+        <a href="#security">Security</a>
+        <a href="#faq" class="js-support-link">Support</a>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
